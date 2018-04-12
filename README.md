@@ -5,10 +5,10 @@ This Lambda function is for custom skill set for Alexa written in python 2.7
 
 I have created following Intents:
 
-1.ConfirmYesOrNo -  For confirming to play spelling games.
-2.CheckSpelling -  To check the spelling of the word.
-3.RepeatWord -  Repeating the same word again.
-4.NextWord - Asking for some other word.
+1. ConfirmYesOrNo -  For confirming to play spelling games.
+2. CheckSpelling -  To check the spelling of the word.
+3. RepeatWord -  Repeating the same word again.
+4. NextWord - Asking for some other word.
 
 ## Understanding the lambda functions
 
