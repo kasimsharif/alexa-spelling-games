@@ -64,14 +64,14 @@ Confirm the response by saying YES/NO
             should_end_session = True  
     return build_response(session_attributes, build_speechlet_response(                              
         card_title, speech_output, reprompt_text, should_end_session))                                                                    
-   ```                                                                                                  
+```                                                                                                  
                              
                                                                      
 If you confirm as **YES** games starts and Alexa gives you first word to spell, if you say **NO** game ends.
 
 ### Check the Spellings
 
-To Answer the Spelling Say **Answer, <!Spell that word>** , Prefixing **Answer** before spelling the word.
+To Answer the Spelling Say **Answer, <!Spell that word>** (Utterance defined for this Intent), Prefixing **Answer** before spelling the word.
 
 Following Function check the spelling. If correct spelling it give new random word:
 get_word_list() -  list of words
@@ -79,7 +79,7 @@ Store that word in session attribute
                                                                                                      
 ```def check_spelling(intent, session):                                                                 
     """ Check the spelling of the word                                                               
-    """                                                                                              
+    """                                                                                             
     card_title = intent['name']                                                                      
     session_attributes = {}                                                                          
     should_end_session = False                                                                       
@@ -89,12 +89,57 @@ Store that word in session attribute
             next_word = get_word_list()                                                              
             session_attributes = create_word_attributes(next_word)                                   
             speech_output = "Great !! Correct Spelling! Next Word " + next_word + "."                                                                                        
-            reprompt_text = "Great !! Correct Spelling! Next Word " + next_word + "."                 
+            reprompt_text = "Great !! Correct Spelling! Next Word " + next_word + "."
         else:                                                                                        
-            speech_output = "Oops Sorry Answer!! Bye Bye"                                            
+            speech_output = "Oops Sorry Answer!! Bye Bye"                                           
             reprompt_text = "Oops Sorry Answer!! Bye Bye"                                            
             should_end_session = True                                                                  
     return build_response(session_attributes, build_speechlet_response(                              
-        card_title, speech_output, reprompt_text, should_end_session)) ```
+        card_title, speech_output, reprompt_text, should_end_session)) 
+```
+
+### Repeat the word
+
+To make alexa repeat the same say **Repeat the word** (Utterance defined for this Intent)
+
+```def repeat_word(intent, session):                                                                    
+    """ Repeating the word                                                                           
+    """                                                                                              
+    card_title = intent['name']                                                                      
+    session_attributes = {}                                                                          
+    should_end_session = False                                                                       
+                                                                                                     
+    selected_word = session['attributes']['selectedWord']                                            
+    session_attributes = create_word_attributes(selected_word)                                       
+                                                                                                     
+                                                                                                     
+    speech_output = selected_word                                                                    
+                                                                                                     
+    reprompt_text = selected_word                                                                    
+                                                                                                     
+    return build_response(session_attributes, build_speechlet_response(                              
+        card_title, speech_output, reprompt_text, should_end_session))                               
+```
+
+### Next Word
+
+Make Alexa to say new word, say **Next Word** (Utterance defined for this Intent)
+
+```def next_word(intent, session):                                                                      
+    """ Next word                                                                                    
+    """                                                                                              
+    card_title = intent['name']                                                                      
+    session_attributes = {}                                                                          
+    should_end_session = False                                                                       
+    selected_word = get_word_list()                                                                  
+    session_attributes = create_word_attributes(selected_word)                                       
+                                                                                                     
+    speech_output = "Next word " + selected_word + "."                                               
+                                                                                                     
+    reprompt_text = "Next word "+ selected_word + "."                                                
+                                                                                                     
+    return build_response(session_attributes, build_speechlet_response(                              
+        card_title, speech_output, reprompt_text, should_end_session))
+```
         
         
