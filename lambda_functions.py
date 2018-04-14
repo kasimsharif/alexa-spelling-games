@@ -183,7 +183,7 @@ def get_confirmation(intent, session):
     selected_word = get_word_list()
     session_attributes = create_word_attributes(selected_word)
     if 'Confirm' in intent['slots']:
-        confirmation = intent['slots']['Confirm']['value']
+        confirmation = intent['slots']['Confirm'].get('value')
         if confirmation == "yes":
             speech_output = "Thanks for confirmation. "  \
                             "Lets Begin the Game, While Responding, 'Say Answer, and then spell the Word'. " \
