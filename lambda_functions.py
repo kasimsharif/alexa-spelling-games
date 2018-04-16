@@ -1,10 +1,5 @@
 """
-This sample demonstrates a simple skill built with the Amazon Alexa Skills Kit.
-The Intent Schema, Custom Slots, and Sample Utterances for this skill, as well
-as testing instructions are located at http://amzn.to/1LzFrj6
-
-For additional samples, visit the Alexa Skills Kit Getting Started guide at
-http://amzn.to/1LGWsLG
+Spelling Games skill built with the Amazon Alexa Skills Kit.
 """
 
 from __future__ import print_function
@@ -21,8 +16,8 @@ def build_speechlet_response(title, output, reprompt_text, should_end_session):
         },
         'card': {
             'type': 'Simple',
-            'title': "SessionSpeechlet - " + title,
-            'content': "SessionSpeechlet - " + output
+            'title': title,
+            'content': output
         },
         'reprompt': {
             'outputSpeech': {
@@ -51,12 +46,12 @@ def get_welcome_response():
 
     session_attributes = {}
     card_title = "Welcome"
-    speech_output = "Welcome to the Word Game " \
+    speech_output = "Welcome to the Spelling Games. " \
                     "Please Confirm to start the game by saying yes or no " \
     # If the user either does not reply to the welcome message or says something
     # that is not understood, they will be prompted again with this text.
     reprompt_text = "Please Confirm to start the game by saying yes or no"
-
+    
     should_end_session = False
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
@@ -64,7 +59,7 @@ def get_welcome_response():
 
 def handle_session_end_request():
     card_title = "Session Ended"
-    speech_output = "Thank you for trying the Alexa Skills Kit sample. " \
+    speech_output = "Thank you for trying Spelling Games. " \
                     "Have a nice day! "
     # Setting this to true ends the session and exits the skill.
     should_end_session = True
@@ -74,8 +69,8 @@ def handle_session_end_request():
 
 def create_word_attributes(selected_word):
     return {"selectedWord": selected_word}
-
-
+    
+    
 def get_word_list():
     return random.choice([
         "acceptable",
@@ -94,7 +89,7 @@ def get_word_list():
         "cemetery",
         "conscience",
         "convalesce",
-        "column",
+        "column",        
         "handkerchief",
         "indict",
         "rhythm",
@@ -111,8 +106,8 @@ def get_word_list():
         "recommend",
         "deductible"
     ])
-
-
+    
+    
 def check_spelling(intent, session):
     """ Check the spelling of the word
     """
@@ -125,16 +120,16 @@ def check_spelling(intent, session):
             next_word = get_word_list()
             session_attributes = create_word_attributes(next_word)
             speech_output = "Great !! Correct Spelling! Next Word " + next_word + "."
-
+                        
             reprompt_text = "Great !! Correct Spelling! Next Word " + next_word + "."
-
+            
         else:
-            speech_output = "Oops Sorry Answer!! Bye Bye"
-
-            reprompt_text = "Oops Sorry Answer!! Bye Bye"
-
+            speech_output = "Oops Sorry, Wrong Answer! Bye Bye"
+                            
+            reprompt_text = "Oops Sorry, Wrong Answer! Bye Bye"
+                        
             should_end_session = True
-
+    
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
@@ -145,15 +140,15 @@ def repeat_word(intent, session):
     card_title = intent['name']
     session_attributes = {}
     should_end_session = False
-
+    
     selected_word = session['attributes']['selectedWord']
     session_attributes = create_word_attributes(selected_word)
-
-
+    
+    
     speech_output = selected_word
-
+                        
     reprompt_text = selected_word
-
+    
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
@@ -166,14 +161,14 @@ def next_word(intent, session):
     should_end_session = False
     selected_word = get_word_list()
     session_attributes = create_word_attributes(selected_word)
-
+    
     speech_output = "Next word " + selected_word + "."
-
+                        
     reprompt_text = "Next word "+ selected_word + "."
-
+    
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
-
+    
 def get_confirmation(intent, session):
     """ Set your confirmation by saying Yes or No
     """
@@ -192,12 +187,12 @@ def get_confirmation(intent, session):
                             "Lets Begin the Game, While Responding, 'Say Answer, and then spell the Word'. " \
                             "First Word, 'Spell " + selected_word + "'."
         else:
-            speech_output = "Oops Sorry to hear you don't want to Play." \
-                        "Bye Bye, Hope to meet with you soon"
-            reprompt_text = "Oops Sorry to hear you don't want to Play." \
-                        "Bye Bye, Hope to meet with you soon"
+            speech_output = "Oops, Sorry to hear you don't want to Play." \
+                        " Bye Bye, Hope to meet with you soon"
+            reprompt_text = "Oops, Sorry to hear you don't want to Play." \
+                        " Bye Bye, Hope to meet with you soon"
             should_end_session = True
-
+    
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
@@ -286,4 +281,3 @@ def lambda_handler(event, context):
         return on_intent(event['request'], event['session'])
     elif event['request']['type'] == "SessionEndedRequest":
         return on_session_ended(event['request'], event['session'])
-
